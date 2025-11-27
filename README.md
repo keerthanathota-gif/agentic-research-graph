@@ -3,8 +3,10 @@
 
 > **A production-grade system for constructing deep semantic knowledge graphs from research papers, designed for the Gaussian Splatting research landscape.**
 
-[![TypeScript](https://img.shields.io/badge/TypeScript-5.3-blue.svg)](https://www.typescriptlang.org/)
+[![Python](https://img.shields.io/badge/Python-3.11+-blue.svg)](https://www.python.org/)
 [![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16-blue.svg)](https://www.postgresql.org/)
+[![Claude](https://img.shields.io/badge/Claude-Sonnet%204.5-orange.svg)](https://www.anthropic.com/)
+[![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
 
 
@@ -94,11 +96,9 @@ Papers (arXiv) → Fetcher → Parser Agent → Entity Extractors (parallel)
 
 ### Prerequisites
 
-```bash
-Node.js 20+
-PostgreSQL 16+
-Anthropic API key
-```
+- Python 3.11+
+- PostgreSQL 16+
+- Anthropic API key (get $5 free credit at https://console.anthropic.com/)
 
 ### Installation
 
@@ -107,45 +107,109 @@ Anthropic API key
 git clone https://github.com/keerthanathota-gif/agentic-research-graph.git
 cd agentic-research-graph
 
+# Create virtual environment
+python -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
+
 # Install dependencies
-npm install
+pip install -r requirements.txt
 
 # Set up environment
 cp .env.example .env
-# Add your ANTHROPIC_API_KEY to .env
-
-# Initialize database
-npm run db:setup
-npm run db:migrate
+# Edit .env and add your ANTHROPIC_API_KEY
 ```
 
-### Run the Pipeline
+### Database Setup
 
 ```bash
-# Process Gaussian Splatting corpus (starts with seed paper, expands via citations)
-npm run ingest -- \
+# Install PostgreSQL 16+ (if not installed)
+# Download from: https://www.postgresql.org/download/
+
+# Create database
+psql -U postgres
+CREATE DATABASE research_kg;
+\q
+
+# Initialize schema
+psql -U postgres -d research_kg -f src/database/schema.sql
+```
+
+---
+
+## Proof-of-Concept Demo
+
+This demonstrates the system's extraction capabilities on the seed paper **"3D Gaussian Splatting for Real-Time Radiance Field Rendering"** (arXiv:2308.04079).
+
+### Quick Demo Run
+
+```bash
+# Activate virtual environment
+source venv/bin/activate  # Windows: venv\Scripts\activate
+
+# Run example extraction
+python examples/run_3dgs_extraction.py
+```
+
+**Output**:
+```
+Entities Extracted:
+  • Concepts: 3
+  • Methods: 2
+  • Metrics: 3
+  • Datasets: 2
+
+Relationships Extracted: 4
+Quality Score: 0.92
+
+Example Relationship:
+3D Gaussian Splatting --[improves_on]--> Neural Radiance Fields
+  Confidence: 0.96
+  Evidence: "Our method achieves real-time rendering (≥30 fps) while maintaining competitive quality, compared to NeRF's 30-second per-frame rendering time."
+  Improvement: 900x faster (rendering_speed)
+```
+
+### View Example Outputs
+
+All example outputs are saved to `examples/outputs/`:
+- `entities_3dgs.json` - Extracted entities with confidence scores
+- `relationships_3dgs.json` - Relationships with evidence and quantitative data
+- `quality_report_3dgs.json` - Quality assessment and validation results
+
+### Query the Example Data
+
+```sql
+-- Connect to database
+psql -U postgres -d research_kg
+
+-- Find all extracted concepts
+SELECT canonical_name, properties->>'definition'
+FROM nodes
+WHERE type = 'concept';
+
+-- Find improvement relationships
+SELECT
+  source.canonical_name AS improves,
+  target.canonical_name AS improved_upon,
+  edge.properties->'quantitative'->>'improvement' AS improvement
+FROM edges edge
+JOIN nodes source ON source.id = edge.source_id
+JOIN nodes target ON target.id = edge.target_id
+WHERE edge.type = 'improves_on';
+```
+
+---
+
+## Run Full Pipeline (Coming Soon)
+
+The complete end-to-end pipeline requires additional implementation:
+
+```bash
+# Process real papers from arXiv (requires full implementation)
+python run_pipeline.py \
   --seed-paper "2308.04079" \
   --depth 2 \
   --max-papers 100 \
-  --strategy citation-bfs
-
-# Process specific paper
-npm run process-paper -- --arxiv-id "2308.04079"
-
-# Start API server for queries
-npm run dev
-```
-
-### Query the Graph
-
-```bash
-# Which papers improve on original 3D Gaussian Splatting?
-curl -X POST http://localhost:3000/api/query \
-  -H "Content-Type: application/json" \
-  -d '{
-    "query": "papers_that_improve",
-    "target": "3D Gaussian Splatting"
-  }'
+  --strategy hybrid
 
 # Find papers using a specific dataset
 curl -X POST http://localhost:3000/api/query \
