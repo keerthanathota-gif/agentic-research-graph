@@ -620,7 +620,7 @@ agentic-research-graph/
 
 ## Roadmap
 
-### Phase 1: Core System (Current)
+###  Core System (Current)
 
 - Multi-agent extraction pipeline
 - Postgres graph schema
@@ -629,7 +629,7 @@ agentic-research-graph/
 - Basic query API
 - Documentation and examples
 
-### Phase 2: Intelligence Enhancement (Q1 2025)
+###  Intelligence Enhancement (Q1 2025)
 
 - Fine-tuned extractors for CV domain
 - Active learning from human corrections
@@ -638,7 +638,7 @@ agentic-research-graph/
 - Multi-paper synthesis ("Survey papers X, Y, Z on topic")
 - Citation context classification (supporting, contrasting, neutral)
 
-### Phase 3: User Experience (Q2 2025)
+###  User Experience (Q2 2025)
 
 - Interactive web UI with graph visualization (React + D3.js)
 - Natural language query interface ("What are the fastest methods?")
@@ -647,7 +647,7 @@ agentic-research-graph/
 - Browser extension for inline paper augmentation
 - Integration with Zotero, Mendeley, Notion
 
-### Phase 4: Scale & Ecosystem (Q3-Q4 2025)
+###  Scale & Ecosystem (Q3-Q4 2025)
 
 - Full arXiv corpus (cs.CV, cs.AI, cs.LG, cs.RO)
 - Real-time ingestion pipeline (arXiv RSS, OpenReview, conferences)
@@ -834,47 +834,7 @@ Yes, architecture is domain-agnostic. You would need to:
 
 ---
 
-## Contributing
 
-This is a take-home assignment demonstration. For production use, we recommend:
-
-### Before Production
-
-- [ ] Implement comprehensive error handling for all edge cases
-- [ ] Add authentication and authorization (JWT tokens)
-- [ ] Expand test coverage to >90% (current: proof-of-concept level)
-- [ ] Set up CI/CD pipelines (GitHub Actions)
-- [ ] Configure production monitoring and alerting (PagerDuty)
-- [ ] Implement rate limiting and quota management
-- [ ] Add data privacy controls (GDPR compliance if applicable)
-- [ ] Security audit (SQL injection, LLM prompt injection)
-- [ ] Load testing and performance profiling
-- [ ] Disaster recovery and backup strategy
-
-### Development Guidelines
-
-- Use TypeScript strict mode
-- Follow ESLint + Prettier configuration
-- Write tests for all new agents
-- Document prompts with few-shot examples
-- Add OpenTelemetry spans for new operations
-
----
-
-## License
-
-MIT License - See [LICENSE](LICENSE) file for details.
-
----
-
-## Acknowledgments
-
-- **Anthropic Claude** for powerful reasoning capabilities
-- **Gaussian Splatting research community** for inspiring this project
-- **PostgreSQL community** for the robust graph-capable database
-- **Academic paper authors** whose work we aim to make more discoverable
-
----
 
 ## Contact & Support
 
@@ -882,14 +842,3 @@ MIT License - See [LICENSE](LICENSE) file for details.
 **Author:** Keerthana Thota
 **Repository:** [github.com/keerthanathota-gif/agentic-research-graph](https://github.com/keerthanathota-gif/agentic-research-graph)
 
-For questions about this system architecture, please open an issue on GitHub.
-
----
-
-<p align="center">
-  <strong>Built with Claude Sonnet 4.5 • Designed for Production • Optimized for Research</strong>
-</p>
-
-<p align="center">
-  <em>Making research connections explicit, queryable, and explainable.</em>
-</p>
