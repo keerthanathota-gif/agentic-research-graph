@@ -3,8 +3,6 @@
 
 > **A production-grade system for constructing deep semantic knowledge graphs from research papers, designed for the Gaussian Splatting research landscape.**
 
-[![Python](https://img.shields.io/badge/Python-3.11+-blue.svg)](https://www.python.org/)
-[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16-blue.svg)](https://www.postgresql.org/)
 
 
 
