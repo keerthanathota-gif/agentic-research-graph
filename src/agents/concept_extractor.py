@@ -1,15 +1,3 @@
-"""
-Concept Extractor Agent
-
-Specialized LLM agent for extracting research concepts from academic papers.
-Uses Claude Sonnet 4.5 for complex reasoning about conceptual relationships.
-
-This agent:
-- Identifies high-level research concepts at multiple granularities
-- Normalizes concept names and tracks aliases
-- Assesses importance and confidence for each extraction
-- Validates extractions against paper text
-"""
 
 import json
 import logging
@@ -444,3 +432,18 @@ def create_concept_extractor(api_key: str) -> ConceptExtractor:
         Configured ConceptExtractor instance
     """
     return ConceptExtractor(api_key)
+
+
+"""
+Concept Extractor Agent
+
+Specialized LLM agent for extracting research concepts from academic papers.
+Uses Claude Sonnet 4.5 for complex reasoning about conceptual relationships.
+
+This agent:
+- Identifies high-level research concepts at multiple granularities
+- Normalizes concept names and tracks aliases
+- Assesses the importance and confidence for each extraction
+- Validates extractions against paper text
+"""
+
