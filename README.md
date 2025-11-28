@@ -95,7 +95,8 @@ Papers (arXiv) → Fetcher → Parser Agent → Entity Extractors (parallel)
 
 - Python 3.11+
 - PostgreSQL 16+
-- Anthropic API key (get $5 free credit at https://console.anthropic.com/)
+-  API key
+-  TypeScript
 
 ### Installation
 
