@@ -1,19 +1,8 @@
--- Research Knowledge Graph Database Schema
--- PostgreSQL 16+
---
--- This schema implements a property graph model in Postgres for storing
--- research papers, entities, and their semantic relationships.
 
--- Enable required extensions
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 CREATE EXTENSION IF NOT EXISTS "pg_trgm";      -- Fuzzy string matching
 CREATE EXTENSION IF NOT EXISTS "btree_gin";    -- Composite indexes
 
--- ============================================================================
--- Core Tables
--- ============================================================================
-
--- Nodes table: stores all graph entities (papers, concepts, methods, etc.)
 CREATE TABLE nodes (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     type VARCHAR(50) NOT NULL,
@@ -22,13 +11,11 @@ CREATE TABLE nodes (
     created_at TIMESTAMP NOT NULL DEFAULT NOW(),
     updated_at TIMESTAMP NOT NULL DEFAULT NOW(),
 
-    -- Constraints
     CONSTRAINT valid_node_type CHECK (type IN (
         'paper', 'concept', 'method', 'metric', 'dataset', 'tool', 'problem'
     ))
 );
 
--- Edges table: stores all relationships between nodes
 CREATE TABLE edges (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     source_id UUID NOT NULL REFERENCES nodes(id) ON DELETE CASCADE,
@@ -38,14 +25,11 @@ CREATE TABLE edges (
     created_at TIMESTAMP NOT NULL DEFAULT NOW(),
     updated_at TIMESTAMP NOT NULL DEFAULT NOW(),
 
-    -- Prevent duplicate relationships
     CONSTRAINT unique_relationship UNIQUE(source_id, target_id, type),
 
-    -- Prevent self-loops (optional)
     CONSTRAINT no_self_loops CHECK (source_id != target_id)
 );
 
--- Entity occurrences: tracks which papers mention which entities
 CREATE TABLE entity_occurrences (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     entity_id UUID NOT NULL REFERENCES nodes(id) ON DELETE CASCADE,
@@ -57,7 +41,6 @@ CREATE TABLE entity_occurrences (
     created_at TIMESTAMP NOT NULL DEFAULT NOW()
 );
 
--- Processing log: tracks pipeline execution
 CREATE TABLE processing_log (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     paper_id UUID NOT NULL REFERENCES nodes(id) ON DELETE CASCADE,
@@ -69,7 +52,6 @@ CREATE TABLE processing_log (
     created_at TIMESTAMP NOT NULL DEFAULT NOW()
 );
 
--- Graph statistics: for monitoring and analytics
 CREATE TABLE graph_statistics (
     date DATE PRIMARY KEY,
     papers_count INTEGER DEFAULT 0,
@@ -79,7 +61,6 @@ CREATE TABLE graph_statistics (
     updated_at TIMESTAMP NOT NULL DEFAULT NOW()
 );
 
--- Dead letter queue: failed processing jobs
 CREATE TABLE dead_letter_queue (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     paper_id TEXT NOT NULL,
@@ -93,11 +74,6 @@ CREATE TABLE dead_letter_queue (
     retried_at TIMESTAMP
 );
 
--- ============================================================================
--- Indexes for Performance
--- ============================================================================
-
--- Nodes indexes
 CREATE INDEX idx_nodes_type ON nodes(type);
 CREATE INDEX idx_nodes_canonical_name ON nodes(canonical_name);
 CREATE INDEX idx_nodes_type_name ON nodes(type, canonical_name);
@@ -106,7 +82,6 @@ CREATE INDEX idx_nodes_search ON nodes USING GIN(
     to_tsvector('english', canonical_name || ' ' || COALESCE((properties->>'definition')::text, ''))
 );
 
--- Edges indexes
 CREATE INDEX idx_edges_source ON edges(source_id);
 CREATE INDEX idx_edges_target ON edges(target_id);
 CREATE INDEX idx_edges_type ON edges(type);
@@ -115,24 +90,16 @@ CREATE INDEX idx_edges_target_type ON edges(target_id, type);
 CREATE INDEX idx_edges_composite ON edges(source_id, target_id, type);
 CREATE INDEX idx_edges_properties ON edges USING GIN(properties);
 
--- Entity occurrences indexes
 CREATE INDEX idx_entity_occ_entity ON entity_occurrences(entity_id);
 CREATE INDEX idx_entity_occ_paper ON entity_occurrences(paper_id);
 
--- Processing log indexes
 CREATE INDEX idx_processing_log_paper ON processing_log(paper_id);
 CREATE INDEX idx_processing_log_status ON processing_log(status);
 CREATE INDEX idx_processing_log_stage ON processing_log(stage);
 
--- Dead letter queue indexes
 CREATE INDEX idx_dlq_paper ON dead_letter_queue(paper_id);
 CREATE INDEX idx_dlq_error_type ON dead_letter_queue(error_type);
 
--- ============================================================================
--- Materialized Views for Analytics
--- ============================================================================
-
--- Paper impact metrics
 CREATE MATERIALIZED VIEW mv_paper_impact AS
 SELECT
     p.id,
@@ -162,7 +129,6 @@ CREATE UNIQUE INDEX ON mv_paper_impact(id);
 CREATE INDEX ON mv_paper_impact(impact_score DESC);
 CREATE INDEX ON mv_paper_impact(publication_date DESC);
 
--- Entity popularity
 CREATE MATERIALIZED VIEW mv_entity_popularity AS
 SELECT
     e.id,
@@ -181,11 +147,6 @@ GROUP BY e.id, e.type, e.canonical_name, e.properties;
 CREATE UNIQUE INDEX ON mv_entity_popularity(id);
 CREATE INDEX ON mv_entity_popularity(type, papers_mentioned_in DESC);
 
--- ============================================================================
--- Helper Functions
--- ============================================================================
-
--- Function: Find papers that improve on a given method
 CREATE OR REPLACE FUNCTION find_papers_that_improve(method_name TEXT)
 RETURNS TABLE (
     paper_id UUID,
@@ -211,7 +172,6 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
--- Function: Find method lineage (chain of improvements)
 CREATE OR REPLACE FUNCTION find_method_lineage(method_name TEXT, max_depth INT DEFAULT 5)
 RETURNS TABLE (
     depth INT,
@@ -221,7 +181,6 @@ RETURNS TABLE (
     improvement_claim TEXT
 ) AS $$
 WITH RECURSIVE lineage AS (
-    -- Base case: starting method
     SELECT
         0 as depth,
         m.id,
@@ -234,7 +193,6 @@ WITH RECURSIVE lineage AS (
 
     UNION ALL
 
-    -- Recursive case: methods that improve/extend this one
     SELECT
         l.depth + 1,
         m.id,
@@ -250,7 +208,6 @@ WITH RECURSIVE lineage AS (
 SELECT * FROM lineage ORDER BY depth;
 $$ LANGUAGE sql;
 
--- Function: Semantic search on entities
 CREATE OR REPLACE FUNCTION search_entities(
     search_query TEXT,
     entity_type TEXT DEFAULT NULL,
@@ -282,10 +239,6 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
--- ============================================================================
--- Triggers for Automatic Timestamp Updates
--- ============================================================================
-
 CREATE OR REPLACE FUNCTION update_updated_at_column()
 RETURNS TRIGGER AS $$
 BEGIN
@@ -304,17 +257,8 @@ CREATE TRIGGER update_edges_updated_at
     FOR EACH ROW
     EXECUTE FUNCTION update_updated_at_column();
 
--- ============================================================================
--- Initial Data
--- ============================================================================
-
--- Initialize graph statistics
 INSERT INTO graph_statistics (date) VALUES (CURRENT_DATE)
 ON CONFLICT (date) DO NOTHING;
-
--- ============================================================================
--- Comments for Documentation
--- ============================================================================
 
 COMMENT ON TABLE nodes IS 'All graph entities: papers, concepts, methods, metrics, datasets';
 COMMENT ON TABLE edges IS 'All relationships between nodes with typed edges';
