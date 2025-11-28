@@ -197,7 +197,7 @@ WHERE edge.type = 'improves_on';
 
 ---
 
-## Run Full Pipeline (Coming Soon)
+## Run Full Pipeline 
 
 The complete end-to-end pipeline requires additional implementation:
 
