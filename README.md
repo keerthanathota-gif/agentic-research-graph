@@ -3,10 +3,7 @@
 
 > **A production-grade system for constructing deep semantic knowledge graphs from research papers, designed for the Gaussian Splatting research landscape.**
 
-[![Python](https://img.shields.io/badge/Python-3.11+-blue.svg)](https://www.python.org/)
-[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16-blue.svg)](https://www.postgresql.org/)
-[![Claude](https://img.shields.io/badge/Claude-Sonnet%204.5-orange.svg)](https://www.anthropic.com/)
-[![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+
 
 
 
@@ -98,7 +95,8 @@ Papers (arXiv) → Fetcher → Parser Agent → Entity Extractors (parallel)
 
 - Python 3.11+
 - PostgreSQL 16+
-- Anthropic API key (get $5 free credit at https://console.anthropic.com/)
+-  API key
+-  TypeScript
 
 ### Installation
 
