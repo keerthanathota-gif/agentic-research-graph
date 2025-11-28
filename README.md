@@ -35,27 +35,27 @@ An **agentic system** where specialized AI agents collaborate to:
 
 ### Key Capabilities
 
-**🧠 Deep Semantic Understanding**
+**Deep Semantic Understanding**
 - Agents understand nuanced relationships: "improves_on," "extends," "challenges"
 - Extract quantitative claims: "15% higher PSNR," "2x faster training"
 - Ground every relationship in textual evidence for explainability
 
-**🤖 Multi-Agent Orchestration**
+**Multi-Agent Orchestration**
 - 7+ specialized agents (parsing, extraction, validation, linking)
 - Parallel processing for throughput (800-1200 papers/hour)
 - Confidence scoring and quality control at every stage
 
-**📊 Production-Grade Architecture**
+**Production-Grade Architecture**
 - Fault-tolerant with checkpointing and retry logic
 - Observable with structured logging, metrics, tracing
 - Cost-optimized: Haiku for simple tasks, Sonnet for complex reasoning
 
-**🔍 Graph-Native Storage**
+**Graph-Native Storage**
 - Postgres with recursive CTEs for graph traversal
 - Sub-second semantic queries on 100K+ papers
 - ACID guarantees for research integrity
 
-**📈 Incremental Processing**
+**Incremental Processing**
 - Batch corpus ingestion for historical papers
 - Real-time ingestion for newly published papers
 - Entity linking ensures consistency across corpus
@@ -622,41 +622,41 @@ agentic-research-graph/
 
 ## Roadmap
 
-### Phase 1: Core System ✅ (Current)
+### Phase 1: Core System (Current)
 
-- [x] Multi-agent extraction pipeline
-- [x] Postgres graph schema
-- [x] Quality control framework
-- [x] Gaussian Splatting corpus (seed implementation)
-- [x] Basic query API
-- [x] Documentation and examples
+- Multi-agent extraction pipeline
+- Postgres graph schema
+- Quality control framework
+- Gaussian Splatting corpus (seed implementation)
+- Basic query API
+- Documentation and examples
 
-### Phase 2: Intelligence Enhancement 🔄 (Q1 2025)
+### Phase 2: Intelligence Enhancement (Q1 2025)
 
-- [ ] Fine-tuned extractors for CV domain
-- [ ] Active learning from human corrections
-- [ ] Contradiction detection with confidence weighting
-- [ ] Temporal tracking of concept evolution
-- [ ] Multi-paper synthesis ("Survey papers X, Y, Z on topic")
-- [ ] Citation context classification (supporting, contrasting, neutral)
+- Fine-tuned extractors for CV domain
+- Active learning from human corrections
+- Contradiction detection with confidence weighting
+- Temporal tracking of concept evolution
+- Multi-paper synthesis ("Survey papers X, Y, Z on topic")
+- Citation context classification (supporting, contrasting, neutral)
 
-### Phase 3: User Experience 📋 (Q2 2025)
+### Phase 3: User Experience (Q2 2025)
 
-- [ ] Interactive web UI with graph visualization (React + D3.js)
-- [ ] Natural language query interface ("What are the fastest methods?")
-- [ ] Automated literature review generation
-- [ ] Research trend dashboards (emerging topics, popular methods)
-- [ ] Browser extension for inline paper augmentation
-- [ ] Integration with Zotero, Mendeley, Notion
+- Interactive web UI with graph visualization (React + D3.js)
+- Natural language query interface ("What are the fastest methods?")
+- Automated literature review generation
+- Research trend dashboards (emerging topics, popular methods)
+- Browser extension for inline paper augmentation
+- Integration with Zotero, Mendeley, Notion
 
-### Phase 4: Scale & Ecosystem 📋 (Q3-Q4 2025)
+### Phase 4: Scale & Ecosystem (Q3-Q4 2025)
 
-- [ ] Full arXiv corpus (cs.CV, cs.AI, cs.LG, cs.RO)
-- [ ] Real-time ingestion pipeline (arXiv RSS, OpenReview, conferences)
-- [ ] Multi-modal understanding (parse figures, equations, tables)
-- [ ] Collaborative filtering ("Researchers who read X also read Y")
-- [ ] Public API for third-party tools
-- [ ] Research assistant chatbot ("Explain 3D-GS to a beginner")
+- Full arXiv corpus (cs.CV, cs.AI, cs.LG, cs.RO)
+- Real-time ingestion pipeline (arXiv RSS, OpenReview, conferences)
+- Multi-modal understanding (parse figures, equations, tables)
+- Collaborative filtering ("Researchers who read X also read Y")
+- Public API for third-party tools
+- Research assistant chatbot ("Explain 3D-GS to a beginner")
 
 ---
 

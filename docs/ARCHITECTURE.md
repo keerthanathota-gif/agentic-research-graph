@@ -2580,9 +2580,9 @@ Tokens: ~60K (15K Haiku, 45K Sonnet)
 ```
 Time    Agent 1   Agent 2   Agent 3   Agent 4   Agent 5   Agent 6   Agent 7   Agent 8
 00:00   Paper A   Paper B   Paper C   Paper D   Paper E   Paper F   Paper G   Paper H
-02:00   ✓         ✓         ✓         ✓         ✓         ✓         ✓         ✓
+02:00   [DONE]         [DONE]         [DONE]         [DONE]         [DONE]         [DONE]         [DONE]         [DONE]
         Paper I   Paper J   Paper K   Paper L   Paper M   Paper N   Paper O   Paper P
-04:00   ✓         ✓         ✓         ✓         ✓         ✓         ✓         ✓
+04:00   [DONE]         [DONE]         [DONE]         [DONE]         [DONE]         [DONE]         [DONE]         [DONE]
         ...
 
 Throughput: ~240 papers/hour (8 agents × 30 papers/hour each)

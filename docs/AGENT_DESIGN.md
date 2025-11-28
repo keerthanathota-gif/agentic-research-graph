@@ -566,11 +566,11 @@ def select_model(task_type, complexity_score):
 
 The multi-agent architecture provides:
 
-✅ **Specialization**: Each agent optimized for specific task
-✅ **Quality**: Multi-layered validation catches errors
-✅ **Scalability**: Parallel processing for throughput
-✅ **Cost-efficiency**: Intelligent model selection
-✅ **Maintainability**: Isolated prompts easy to tune
-✅ **Observability**: Comprehensive metrics at every stage
+****Specialization**: Each agent optimized for specific task
+****Quality**: Multi-layered validation catches errors
+****Scalability**: Parallel processing for throughput
+****Cost-efficiency**: Intelligent model selection
+****Maintainability**: Isolated prompts easy to tune
+****Observability**: Comprehensive metrics at every stage
 
 This design enables production-grade extraction at scale while maintaining research-level quality and explainability.
