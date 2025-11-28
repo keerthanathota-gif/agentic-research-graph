@@ -1,11 +1,3 @@
-/**
- * Concept Extractor Agent
- *
- * Specialized LLM agent for extracting research concepts from academic papers.
- * Uses Claude Sonnet 4.5 for complex reasoning about conceptual relationships.
- *
- * @module agents/ConceptExtractor
- */
 
 import Anthropic from '@anthropic-ai/sdk';
 import { v4 as uuid } from 'uuid';
