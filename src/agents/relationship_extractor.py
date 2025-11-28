@@ -1,17 +1,3 @@
-"""
-Relationship Extractor Agent
-
-Specialized LLM agent for identifying semantic relationships between entities
-in academic papers. Goes beyond simple citations to extract deep semantic
-connections like "improves_on", "addresses_limitation", "extends", etc.
-
-This agent:
-- Identifies explicit relationships stated in text
-- Infers implicit relationships from context
-- Distinguishes relationship types with high precision
-- Grounds every relationship in textual evidence
-- Extracts quantitative comparisons when available
-"""
 
 import json
 import logging
@@ -530,3 +516,17 @@ def create_relationship_extractor(api_key: str) -> RelationshipExtractor:
         Configured RelationshipExtractor instance
     """
     return RelationshipExtractor(api_key)
+"""
+Relationship Extractor Agent
+
+Specialized LLM agent for identifying semantic relationships between entities
+in academic papers. Goes beyond simple citations to extract deep semantic
+connections like "improves_on", "addresses_limitation", "extends", etc.
+
+This agent:
+- Identifies explicit relationships stated in text
+- Infers implicit relationships from context
+- Distinguishes relationship types with high precision
+- Grounds every relationship in textual evidence
+- Extracts quantitative comparisons when available
+"""
